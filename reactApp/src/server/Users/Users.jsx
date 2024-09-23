@@ -31,4 +31,62 @@ const postUsers = async (newUser) => {
   }
 };
 
-export { getDataUsers, postUsers }
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+
+const updateUsers = async (id, updatedToy) => {
+  try {
+    const response = await fetch(`http://localhost:8000/api/users/${id}/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedToy),  // Enviar los datos actualizados
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la solicitud PUT');
+    }
+
+    const data = await response.json();
+    console.log(data);  // Datos actualizados
+  } catch (error) {
+    console.error('ERROR PUT:', error);
+  }
+};
+
+// Ejemplo de uso
+// updateToy(1, { name: 'New Toy Name', description: 'Updated description' });
+
+
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+
+const deleteUsers = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:8000/api/users/${id}/`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Error en la solicitud DELETE');
+    }
+    console.log('User deleted successfully');
+  } catch (error) {
+    console.error('ERROR DELETE:', error);
+  }
+};
+
+// Ejemplo de uso
+// deleteToy(1);  // Elimina el juguete con ID 1
+
+
+export { getDataUsers, postUsers, updateUsers, deleteUsers }

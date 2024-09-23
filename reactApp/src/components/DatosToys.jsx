@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getDataUsers } from '../server/Users/Users';
-import { postUsers } from '../server/Users/Users';
+import { getDataUsers, postUsers, updateUsers, deleteUsers } from '../server/Users/Users';
+
 
 const DatosToys = () => {
   const [toys, setToys] = useState([]);
@@ -24,6 +24,19 @@ const DatosToys = () => {
     setUsers(data) 
   }
 
+  const elimUsers = async (id) => {
+    deleteUsers(id)
+  }
+
+                                      //  ❤️❤️🔴🔴
+  const editUsers = async (id) => { // ¡MAEEEEEE! ❤️❤️🔴🔴 AL MOMENTO DE EDITAR, RELLENE LOS INPUT DE ABAJO SIN AÑADIR, PERO LUEGO TOQUE EL BOTON DE EDITAR DE LAS CARDS, USTED ES PRGRAMADOR TAMBIEN, ENTENDERÁ QUE ME DIO PEREZA HACER ALGO COMO OTRO MODAL, JAJAJA.
+    updateUsers(id, {name: inpName, age: inpAge, mail: inpMail, password: inpPassword})
+  }
+
+  const verId = async (id) => {
+    console.log(id);
+  }
+
   return (
     <>
       <h1>Users List</h1>   
@@ -35,6 +48,9 @@ const DatosToys = () => {
             <div>age: {user.age}</div>
             <div>mail: {user.mail}</div>
             <div>password: {user.password}</div>
+            <button onClick={() => verId(user.id)}>Ver</button>
+            <button onClick={() => elimUsers(user.id)}>Eliminar</button>
+            <button onClick={() => editUsers(user.id)}>Editar</button>
           </div>
         ))}
       </div>

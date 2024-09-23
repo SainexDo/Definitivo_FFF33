@@ -25,12 +25,27 @@ def Toys(request):
         "toys": ['Boss', 'Greg', 'Jordy']
     })
 
-@api_view(['GET', 'POST'])
-def users_list(request):
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+
+def users_list(request, pk=None):
+     # Si hay un ID en la URL, intenta obtener ese juguete en particular
+    if pk:
+        try:
+            user = Users.objects.get(pk=pk)
+        except Users.DoesNotExist:
+            return Response({"error": "Toy not found"}, status=status.HTTP_404_NOT_FOUND)
+    
     if request.method == 'GET':
-        users = Users.objects.all()  # Obtener todos los juguetes de la base de datos
-        serializer = userSerializer(users, many=True)  # Serializar los juguetes
-        return Response(serializer.data)  # Retornar la lista de juguetes
+        if pk:
+            # Devolver solo el juguete con el `pk` proporcionado
+            serializer = userSerializer(user)
+            user = Users.objects.get(pk=pk)
+            return Response(serializer.data)
+        else:
+            # Si no hay `pk`, devolver todos los juguetes
+            user = Users.objects.all()
+            serializer = userSerializer(user, many=True)
+            return Response(serializer.data)
 
     elif request.method == 'POST':
         print(request.data)
@@ -39,3 +54,14 @@ def users_list(request):
             serializer.save()  # Guardar el nuevo juguete en la base de datos
             return Response(serializer.data, status=status.HTTP_201_CREATED)  # Retornar datos del nuevo juguete
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Retornar errores sihay
+    
+    elif request.method == 'PUT':
+        serializer = userSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'DELETE':
+        user.delete()
+        return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
