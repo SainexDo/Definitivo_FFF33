@@ -39,7 +39,7 @@ const postUsers = async (newUser) => {
 
 const updateUsers = async (id, updatedToy) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/users/${id}/`, {
+    const response = await fetch(url + id + '/', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const updateUsers = async (id, updatedToy) => {
 
 const deleteUsers = async (id) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/users/${id}/`, {
+    const response = await fetch(url + id + '/', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

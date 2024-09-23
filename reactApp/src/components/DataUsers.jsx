@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react'
 import { getDataUsers, postUsers, updateUsers, deleteUsers } from '../server/Users/Users';
 
 
-const DatosToys = () => {
-  const [toys, setToys] = useState([]);
+const DataUsers = () => {
   const [users, setUsers] = useState([]);
-  const [newToy, setNewToy] = useState('');
   const [inpName, setInpName] = useState('')
   const [inpAge, setInpAge] = useState('')
   const [inpMail, setInpMail] = useState('')
@@ -21,15 +19,14 @@ const DatosToys = () => {
 
   const mostrar = async () => {
     const data = await getDataUsers();
-    setUsers(data) 
+    setUsers(data)
   }
 
   const elimUsers = async (id) => {
     deleteUsers(id)
   }
 
-                                      //  ❤️❤️🔴🔴
-  const editUsers = async (id) => { // ¡MAEEEEEE! ❤️❤️🔴🔴 AL MOMENTO DE EDITAR, RELLENE LOS INPUT DE ABAJO SIN AÑADIR, PERO LUEGO TOQUE EL BOTON DE EDITAR DE LAS CARDS, USTED ES PRGRAMADOR TAMBIEN, ENTENDERÁ QUE ME DIO PEREZA HACER ALGO COMO OTRO MODAL, JAJAJA.
+  const editUsers = async (id) => {
     updateUsers(id, {name: inpName, age: inpAge, mail: inpMail, password: inpPassword})
   }
 
@@ -65,4 +62,8 @@ const DatosToys = () => {
   );
 };
 
-export default DatosToys
+export default DataUsers
+
+//   ❤️❤️🔴 1. SE PUEDE HACER EL MIGRATE SIN TENER QUE IR AL DOCKER A HACERLO?🔴
+//   ❤️❤️🔴 2. ¿SE PUEDEN MANTENER LOS DATOS DE MYSQL DESPUES DE BAJARSE EL DOCKER?🔴
+//   ❤️❤️🔴 3. No se actualiza con el useEffect automaticamente. ¿Por qué?🔴

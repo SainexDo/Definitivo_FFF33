@@ -1,9 +1,11 @@
-import DatosToys from "../components/DatosToys"
+import DataUsers from "../components/DataUsers"
+import DataToys from "../components/DataToys"
 
 const Home = () => {
   return (
     <>
-        <DatosToys/>
+        <DataUsers/>
+        <DataToys/>
     </>
   )
 }

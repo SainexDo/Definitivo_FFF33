@@ -8,7 +8,8 @@ class Users(models.Model):
     age = models.IntegerField(null=True, blank=True)
     mail =  models.EmailField(max_length=255)
     password = models.CharField(max_length=255)
-    
-# class Toys(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     name = models.CharField(max_length=255)
+
+class Toys(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    price  = models.IntegerField(null=True, blank=True)

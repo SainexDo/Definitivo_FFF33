@@ -1,61 +1,96 @@
-import axios from 'axios';
+const url = 'http://localhost:8000/api/toys/';
 
-// const url = 'http://localhost:8000/api/toys/';
+const getDataToys = async () => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data // Hay que traer de una vez el nombre del array, PERROS!!!
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
 
-// const getDataToys = async () => {
-//   try {
-//     const response = await fetch(url);
-//     const data = await response.json();
-//     return data.toys // Hay que traer de una vez el nombre del array, PERROS!!!
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//   }
-// };
 
-//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
-const postToys = async (data) => {
+
+
+
+const postToys = async (newToy) => {
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json',  // Asegúrate de este encabezado
       },
-      body: JSON.stringify(data), // Convertimos el objeto `data` a JSON
+      body: JSON.stringify({ name: newToy.name, price: newToy.price })
+
     });
-    
     if (!response.ok) {
       throw new Error('Error en la solicitud POST');
     }
-
-    const newData = await response.json();
-    console.log(newData);
+    const data = await response.json();
+    console.log(data);
   } catch (error) {
-    alert('ERROR POST');
-    console.error(error); // Para obtener más detalles del error en la consola
+    console.error('ERROR POST:', error);
   }
 };
 
 
-///////////////////////////////////////////////////////////////////////////////////////////
 
-const updateToy = async (id, data) => {
+////////////////////////////////////////////////////////////////////////////
+
+
+
+const updateToys = async (id, updatedToy) => {
   try {
-    const response = await axios.put(url + id, data);
-    console.log(response.data);
+    const response = await fetch(url + id + '/', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedToy),  // Enviar los datos actualizados
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la solicitud PUT');
+    }
+
+    const data = await response.json();
+    console.log(data);  // Datos actualizados
   } catch (error) {
-    console.error(error);
+    console.error('ERROR PUT:', error);
   }
 };
 
+// Ejemplo de uso
+// updateToy(1, { name: 'New Toy Name', description: 'Updated description' });
 
-const deleteToy = async (id) => {
+
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+
+const deleteToys = async (id) => {
   try {
-    const response = await axios.delete(url + id);
-    console.log(response.data);
+    const response = await fetch(url + id + '/', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Error en la solicitud DELETE');
+    }
+    console.log('User deleted successfully');
   } catch (error) {
-    console.error(error);
+    console.error('ERROR DELETE:', error);
   }
 };
 
-export { postToys, updateToy, deleteToy };
+// Ejemplo de uso
+// deleteToy(1);  // Elimina el juguete con ID 1
+
+export { getDataToys, postToys, updateToys, deleteToys}
