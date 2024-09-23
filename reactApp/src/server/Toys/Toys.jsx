@@ -1,34 +1,43 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8000/api/toys/';
+// const url = 'http://localhost:8000/api/toys/';
 
-const getDataToys = async () => {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.users // Hay que traer de una vez el nombre del array, PERROS!!!
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
+// const getDataToys = async () => {
+//   try {
+//     const response = await fetch(url);
+//     const data = await response.json();
+//     return data.toys // Hay que traer de una vez el nombre del array, PERROS!!!
+//   } catch (error) {
+//     console.error("Error fetching data:", error);
+//   }
+// };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-const Post = async (data) => {
-  fetch(url, {
-    method: 'POST', 
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify()
-})
-.then(response => response.json(toys))
-.then(data => {
-})
-.catch(error => {
-    alert('ERROR POST')
-});
+const postToys = async (data) => {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data), // Convertimos el objeto `data` a JSON
+    });
+    
+    if (!response.ok) {
+      throw new Error('Error en la solicitud POST');
+    }
+
+    const newData = await response.json();
+    console.log(newData);
+  } catch (error) {
+    alert('ERROR POST');
+    console.error(error); // Para obtener más detalles del error en la consola
+  }
 };
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
 const updateToy = async (id, data) => {
   try {
@@ -39,6 +48,7 @@ const updateToy = async (id, data) => {
   }
 };
 
+
 const deleteToy = async (id) => {
   try {
     const response = await axios.delete(url + id);
@@ -48,4 +58,4 @@ const deleteToy = async (id) => {
   }
 };
 
-export { getDataToys, Post, updateToy, deleteToy };
+export { postToys, updateToy, deleteToy };
